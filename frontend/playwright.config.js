@@ -4,7 +4,7 @@ export default defineConfig({
   testDir: './tests-e2e',
 
   use: {
-    baseURL: process.env.VITE_API_BASE_URL,
+    baseURL: process.env.BASE_URL,
     headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
