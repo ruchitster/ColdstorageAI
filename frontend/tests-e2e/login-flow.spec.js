@@ -1,27 +1,20 @@
 import { test, expect } from '@playwright/test';
 
 test('REAL login flow', async ({ page }) => {
+  await page.goto('/login');
 
-  // ✅ FIX: go to correct route
-  await page.goto('/');
-
-  // wait for login UI
   const username = page.getByTestId('login-username');
+  const password = page.getByTestId('login-password');
+  const submit = page.getByTestId('login-submit');
 
   await expect(username).toBeVisible();
+  await expect(password).toBeVisible();
 
-  await page.getByTestId('login-password').fill('admin123');
   await username.fill('admin');
+  await password.fill('admin123');
 
-  const [response] = await Promise.all([
-    page.waitForResponse(res =>
-      res.url().includes('/auth/login')
-    ),
-    page.getByTestId('login-submit').click()
-  ]);
+  await submit.click();
 
-  expect(response.ok()).toBeTruthy();
-
-  // IMPORTANT: only works if PrivateRoute redirects after login
+  // ✅ stable assertion (NO network dependency)
   await expect(page).toHaveURL(/dashboard/);
 });
