@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('login failure flow', async ({ page }) => {
 
-  await page.goto('http://localhost:5173/');
+  await page.goto('/');
 
   await expect(page.getByTestId('login-username')).toBeVisible();
 

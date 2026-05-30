@@ -2,7 +2,7 @@ name: Playwright CI (Vercel + Render)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
 jobs:
@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 20
 
-      # 3. Install dependencies
+      # 3. Install frontend dependencies
       - name: Install dependencies
         working-directory: ./frontend
         run: npm install
@@ -28,9 +28,10 @@ jobs:
         working-directory: ./frontend
         run: npx playwright install --with-deps
 
-      # 5. Run UI + API tests against LIVE environment
+      # 5. Run Playwright tests (LIVE ENV)
       - name: Run Playwright tests
         working-directory: ./frontend
         env:
-          BASE_URL: https://your-vercel-app.vercel.app
+          BASE_URL: https://coldstorage-ai.vercel.app
+          API_URL: https://coldstorageai.onrender.com/api
         run: npx playwright test
