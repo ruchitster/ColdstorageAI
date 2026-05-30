@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('REAL login flow', async ({ page }) => {
 
   // ✅ FIX: go to correct route
-  await page.goto('http://localhost:5173/');
+  await page.goto('/');
 
   // wait for login UI
   const username = page.getByTestId('login-username');
