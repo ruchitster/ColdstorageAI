@@ -1,56 +1,64 @@
-name: CI Pipeline - Cold Storage App
+name: CI - Cold Storage E2E (Vercel + Render)
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  test:
+  e2e-tests:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout code
-      - uses: actions/checkout@v4
+      # =========================
+      # Checkout code
+      # =========================
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      # 2. Setup Node
-      - uses: actions/setup-node@v4
+      # =========================
+      # Setup Node
+      # =========================
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 20
 
       # =========================
-      # BACKEND SETUP
+      # Install frontend dependencies (Playwright lives here)
       # =========================
-      - name: Install Backend Dependencies
-        working-directory: ./backend
-        run: npm install
-
-      - name: Start Backend
-        working-directory: ./backend
-        run: nohup npm start &
-
-      # =========================
-      # FRONTEND SETUP
-      # =========================
-      - name: Install Frontend Dependencies
+      - name: Install frontend dependencies
         working-directory: ./frontend
         run: npm install
 
-      - name: Build Frontend
-        working-directory: ./frontend
-        run: npm run build
-
-      - name: Start Frontend
-        working-directory: ./frontend
-        run: nohup npm run preview &
-
       # =========================
-      # PLAYWRIGHT SETUP
+      # Install Playwright browsers
       # =========================
       - name: Install Playwright Browsers
         working-directory: ./frontend
         run: npx playwright install --with-deps
 
-      - name: Run Playwright Tests
+      # =========================
+      # Run E2E tests on LIVE environment
+      # =========================
+      - name: Run Playwright Tests (Vercel + Render)
         working-directory: ./frontend
-        run: npm run test:e2e
+        env:
+          BASE_URL: https://coldstorage-ai.vercel.app
+          API_URL: https://coldstorageai.onrender.com/api
+          NODE_ENV: test
+        run: npx playwright test
+
+      # =========================
+      # Upload report on failure
+      # =========================
+      - name: Upload Playwright Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: frontend/playwright-report
