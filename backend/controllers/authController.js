@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import logger from "../utils/logger.js";
 
 dotenv.config();
 
@@ -23,6 +24,12 @@ export const login = async (req, res) => {
     res.json({ token });
 
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
+
+  logger.error(err);
+
+  res.status(500).json({
+    message: "Server error"
+  });
+
+}
 };
