@@ -26,8 +26,8 @@ const PORT = process.env.PORT ;
 
 
 
-app.listen(PORT, () => {
-
-  logger.info(`Server running on port ${PORT}`);
-
-});
+if (process.env.NODE_ENV !== "test") {
+  app.listen(PORT, () => {
+    console.log(`🚀 Backend running on port ${PORT}`);
+  });
+}

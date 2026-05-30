@@ -1,0 +1,53 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      # Install frontend
+      - name: Install frontend deps
+        working-directory: ./frontend
+        run: npm install
+
+      # Install backend deps
+      - name: Install backend deps
+        working-directory: ./backend
+        run: npm install
+
+      # Install Playwright
+      - name: Install Playwright
+        working-directory: ./frontend
+        run: npx playwright install --with-deps
+
+      # Start backend
+      - name: Start backend
+        working-directory: ./backend
+        run: npm start &
+
+      # Start frontend
+      - name: Start frontend
+        working-directory: ./frontend
+        run: npm run dev &
+
+      # Wait for servers
+      - name: Wait for app
+        run: sleep 10
+
+      # Run tests
+      - name: Run Playwright tests
+        working-directory: ./frontend
+        run: npx playwright test
