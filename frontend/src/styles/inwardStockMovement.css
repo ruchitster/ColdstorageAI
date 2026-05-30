@@ -1,0 +1,72 @@
+.report-page {
+  padding: 20px;
+}
+
+.filters {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.filters input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.filters button {
+  padding: 8px 14px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ledger-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  margin-bottom: 18px;
+  padding: 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.ledger-header {
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+}
+
+.ledger-header h4 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.ledger-header p {
+  margin: 4px 0 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.ledger-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.ledger-table th {
+  background: #f3f4f6;
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.ledger-table td {
+  padding: 8px;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.ledger-table tr:hover {
+  background: #f9fafb;
+}

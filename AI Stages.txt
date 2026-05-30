@@ -1,0 +1,45 @@
+User Query
+   ↓
+Embedding Model (Ollama)
+   ↓
+Vector DB (ChromaDB)
+   ↓
+Relevant ERP Data
+   ↓
+SQL (optional refinement)
+   ↓
+Ollama LLM (Mistral/Phi3)
+   ↓
+Final Answer
+
+
+
+Frontend (Chat UI / Dashboard)
+        ↓
+API Layer (chatWithAI)
+        ↓
+Intent Engine (Router)
+        ↓
+Prompt Builder (Gemini)
+        ↓
+SQL Generator
+        ↓
+SQL Validator (STRICT)
+        ↓
+DB Layer (runQuery)
+        ↓
+Response Formatter (ERP Engine)
+        ↓
+UI Renderer (Cards / Tables / KPI)
+
+
+Now we move to:
+
+👉 STEP 10: FULL ENTERPRISE UI ENGINE
+
+We will build:
+
+clean React ERP cards
+table vs record auto renderer
+smart highlights (latest, stock alerts)
+zero AI text leakage
