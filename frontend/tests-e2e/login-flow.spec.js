@@ -3,6 +3,12 @@ import { test, expect } from '@playwright/test';
 test('REAL login flow', async ({ page }) => {
   await page.goto('/login');
 
+
+console.log(await page.content());
+console.log('URL:', page.url());
+console.log('TITLE:', await page.title());
+
+
   await page.waitForLoadState('networkidle');
 
   const username = page.getByTestId('login-username');
