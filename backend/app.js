@@ -1,5 +1,5 @@
 import express from "express";
-import cors from "cors";
+
 import dotenv from "dotenv";
 
 import authRoutes from "./routes/authRoutes.js";
@@ -8,6 +8,7 @@ import aiRoutes from "./routes/aiRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import { authMiddleware } from "./middleware/authMiddleware.js";
 import cors from "cors";
+
 
 dotenv.config();
 
