@@ -32,9 +32,9 @@ export default function DashboardHome() {
       <h2 className="dashboard-title">📊 Warehouse Dashboard</h2>
 
       {/* =========================
-          ROW 1
+          ROW 1 - MAIN KPIs
       ========================= */}
-      <div className="card-grid">
+      <div className="card-grid row-1">
 
         <div className="card blue">
           <h3>Total Inward</h3>
@@ -54,9 +54,9 @@ export default function DashboardHome() {
       </div>
 
       {/* =========================
-          ROW 2 (MOVED HERE)
+          ROW 2 - COUNTS
       ========================= */}
-      <div className="card-grid">
+      <div className="card-grid row-2">
 
         <div className="card gray">
           <h3>Inward Entries</h3>
