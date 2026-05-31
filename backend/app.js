@@ -23,7 +23,13 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("*", cors(corsOptions));
+app.options("/api/*", cors(corsOptions));
+app.options("/api/auth/*", cors(corsOptions));
+app.options("/api/auth/login", cors(corsOptions));
+app.options("/api/reports/*", cors(corsOptions));
+app.options("/api/ai/*", cors(corsOptions));
+app.options("/api/dashboard/*", cors(corsOptions));
+
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
   res.setHeader("Access-Control-Allow-Credentials", "true");
