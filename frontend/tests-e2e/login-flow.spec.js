@@ -6,15 +6,10 @@ test('REAL login flow', async ({ page }) => {
   await page.getByTestId('login-username').fill('admin');
   await page.getByTestId('login-password').fill('admin123');
 
-  const responsePromise = page.waitForResponse(
-    res => res.url().includes('/auth/login')
-  );
-
   await page.getByTestId('login-submit').click();
 
-  const response = await responsePromise;
-
-  console.log('LOGIN STATUS:', response.status());
+  // Wait for either dashboard or error message
+  await page.waitForLoadState('networkidle');
 
   await expect(page).toHaveURL(/dashboard/);
 });
