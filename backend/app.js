@@ -16,7 +16,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://your-vercel-app.vercel.app"
+      process.env.CORS_ORIGIN
     ],
     credentials: true,
   })

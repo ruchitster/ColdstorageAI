@@ -9,10 +9,17 @@ const ADMIN_PASS = "admin123"; // later move to DB if needed
 
 export const login = async (req, res) => {
   try {
+    console.log("LOGIN BODY:", req.body);
+
     const { username, password } = req.body;
 
+    console.log("USERNAME:", username);
+    console.log("PASSWORD:", password);
+
     if (username !== ADMIN_USER || password !== ADMIN_PASS) {
-      return res.status(401).json({ message: "Invalid credentials" });
+      return res.status(401).json({
+        message: "Invalid credentials"
+      });
     }
 
     const token = jwt.sign(
@@ -24,12 +31,10 @@ export const login = async (req, res) => {
     res.json({ token });
 
   } catch (err) {
+    console.error(err);
 
-  logger.error(err);
-
-  res.status(500).json({
-    message: "Server error"
-  });
-
-}
+    res.status(500).json({
+      message: "Server error"
+    });
+  }
 };
