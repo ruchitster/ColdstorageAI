@@ -6,17 +6,16 @@ test('REAL login flow', async ({ page }) => {
   await page.getByTestId('login-username').fill('admin');
   await page.getByTestId('login-password').fill('admin123');
 
+  const responsePromise = page.waitForResponse(
+    res => res.url().includes('/auth/login')
+  );
+
   await page.getByTestId('login-submit').click();
 
-  await page.waitForTimeout(3000);
+  const response = await responsePromise;
 
-  console.log('URL:', page.url());
-
-  const error = page.getByTestId('login-error');
-
-  if (await error.count()) {
-    console.log('ERROR TEXT:', await error.textContent());
-  }
+  console.log('LOGIN STATUS:', response.status());
+  console.log('LOGIN BODY:', await response.text());
 
   await expect(page).toHaveURL(/dashboard/);
 });
