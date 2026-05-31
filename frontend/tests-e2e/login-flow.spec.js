@@ -3,17 +3,20 @@ import { test, expect } from '@playwright/test';
 test('REAL login flow', async ({ page }) => {
   await page.goto('/');
 
-  const username = page.getByTestId('login-username');
-  const password = page.getByTestId('login-password');
-  const submit = page.getByTestId('login-submit');
+  await page.getByTestId('login-username').fill('admin');
+  await page.getByTestId('login-password').fill('admin123');
 
-  await expect(username).toBeVisible();
-  await expect(password).toBeVisible();
+  await page.getByTestId('login-submit').click();
 
-  await username.fill('admin');
-  await password.fill('admin123');
+  await page.waitForTimeout(3000);
 
-  await submit.click();
+  console.log('URL:', page.url());
+
+  const error = page.getByTestId('login-error');
+
+  if (await error.count()) {
+    console.log('ERROR TEXT:', await error.textContent());
+  }
 
   await expect(page).toHaveURL(/dashboard/);
 });
