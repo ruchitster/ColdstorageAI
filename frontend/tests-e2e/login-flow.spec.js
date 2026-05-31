@@ -3,6 +3,8 @@ import { test, expect } from '@playwright/test';
 test('REAL login flow', async ({ page }) => {
   await page.goto('/login');
 
+  await page.waitForLoadState('networkidle');
+
   const username = page.getByTestId('login-username');
   const password = page.getByTestId('login-password');
   const submit = page.getByTestId('login-submit');
@@ -15,6 +17,5 @@ test('REAL login flow', async ({ page }) => {
 
   await submit.click();
 
-  // ✅ stable assertion (NO network dependency)
   await expect(page).toHaveURL(/dashboard/);
 });
