@@ -16,6 +16,7 @@ test('REAL login flow', async ({ page }) => {
 
   if (await error.count()) {
     console.log('LOGIN ERROR:', await error.textContent());
+    console.log('CURRENT URL:', page.url());
   }
 
   await expect(page).toHaveURL(/dashboard/);
