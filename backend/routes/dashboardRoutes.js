@@ -58,6 +58,7 @@ router.get("/product-stock", async (req, res) => {
           d.Qty AS InQty,
           0 AS OutQty
         FROM InwardDet d
+        where d.status='YES'
 
         UNION ALL
 
@@ -66,6 +67,7 @@ router.get("/product-stock", async (req, res) => {
           0 AS InQty,
           d.Qty AS OutQty
         FROM OutwardDet d
+        where d.status = 'YES'
 
       ) AS movement
 

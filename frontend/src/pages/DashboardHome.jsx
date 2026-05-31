@@ -15,18 +15,25 @@ export default function DashboardHome() {
   };
 
   useEffect(() => {
-    // avoid direct setState-in-effect warning in strict lint
     void loadData();
   }, []);
 
-
-  if (!data) return <p className="loading" data-testid="dashboard-loading">Loading dashboard...</p>;
+  if (!data) {
+    return (
+      <p className="loading" data-testid="dashboard-loading">
+        Loading dashboard...
+      </p>
+    );
+  }
 
   return (
     <div className="dashboard-container" data-testid="dashboard-stats">
 
       <h2 className="dashboard-title">📊 Warehouse Dashboard</h2>
 
+      {/* =========================
+          ROW 1
+      ========================= */}
       <div className="card-grid">
 
         <div className="card blue">
@@ -43,6 +50,13 @@ export default function DashboardHome() {
           <h3>Pending Stock</h3>
           <p>{data.pendingStock}</p>
         </div>
+
+      </div>
+
+      {/* =========================
+          ROW 2 (MOVED HERE)
+      ========================= */}
+      <div className="card-grid">
 
         <div className="card gray">
           <h3>Inward Entries</h3>
