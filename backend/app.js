@@ -1,14 +1,12 @@
 import express from "express";
-
 import dotenv from "dotenv";
+import cors from "cors";
 
 import authRoutes from "./routes/authRoutes.js";
 import reportRoutes from "./routes/reportRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import { authMiddleware } from "./middleware/authMiddleware.js";
-import cors from "cors";
-
 
 dotenv.config();
 
@@ -23,27 +21,6 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-app.options("/api/*", cors(corsOptions));
-app.options("/api/auth/*", cors(corsOptions));
-app.options("/api/auth/login", cors(corsOptions));
-app.options("/api/reports/*", cors(corsOptions));
-app.options("/api/ai/*", cors(corsOptions));
-app.options("/api/dashboard/*", cors(corsOptions));
-
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
-  res.setHeader("Access-Control-Allow-Credentials", "true");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
-  );
-  if (req.method === "OPTIONS") return res.sendStatus(204);
-  next();
-});
 
 app.use(express.json());
 
@@ -58,12 +35,10 @@ app.get("/", (req, res) => {
 });
 
 app.get("/api/protected", authMiddleware, (req, res) => {
-
   res.json({
     success: true,
-    user: req.user
+    user: req.user,
   });
-
 });
 
 export default app;
