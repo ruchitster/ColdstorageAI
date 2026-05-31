@@ -15,7 +15,6 @@ test('REAL login flow', async ({ page }) => {
   const response = await responsePromise;
 
   console.log('LOGIN STATUS:', response.status());
-  console.log('LOGIN BODY:', await response.text());
 
   await expect(page).toHaveURL(/dashboard/);
 });
