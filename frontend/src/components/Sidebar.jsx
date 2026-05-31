@@ -39,7 +39,7 @@ export default function Sidebar() {
         <div className="sidebar-section">
 
           <p className="section-title">
-            Reports
+            Reports Section
           </p>
 
           <NavLink
