@@ -7,20 +7,21 @@ import reportRoutes from "./routes/reportRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import { authMiddleware } from "./middleware/authMiddleware.js";
+import cors from "cors";
 
 dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
-      "http://localhost:5173",
-      process.env.CORS_ORIGIN
-    ],
-    credentials: true,
-  })
-);
+const corsOptions = {
+  origin: [
+    "http://localhost:5173",
+    "https://coldstorage-ai.vercel.app",
+  ],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
