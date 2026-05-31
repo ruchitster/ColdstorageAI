@@ -8,8 +8,15 @@ test('REAL login flow', async ({ page }) => {
 
   await page.getByTestId('login-submit').click();
 
-  // Wait for either dashboard or error message
-  await page.waitForLoadState('networkidle');
+  await page.waitForTimeout(3000);
+
+  console.log('CURRENT URL:', page.url());
+
+  const error = page.getByTestId('login-error');
+
+  if (await error.count()) {
+    console.log('LOGIN ERROR:', await error.textContent());
+  }
 
   await expect(page).toHaveURL(/dashboard/);
 });
