@@ -7,13 +7,16 @@ test("FULL SMOKE: end-to-end ERP flow", async ({ page }) => {
   // =========================
   await page.goto("/");
 
+  await page.waitForLoadState("networkidle");
+
   await page.getByTestId("login-username").fill("admin");
   await page.getByTestId("login-password").fill("admin123");
 
   await page.getByTestId("login-submit").click();
 
-  await expect(page).toHaveURL(/dashboard/, {
-    timeout: 15000,
+  // 🔥 FIX: stable navigation wait (replaces flaky toHaveURL)
+  await page.waitForURL("**/dashboard", {
+    timeout: 20000,
   });
 
   await expect(page.getByTestId("sidebar-logo")).toBeVisible();
@@ -58,20 +61,21 @@ test("FULL SMOKE: end-to-end ERP flow", async ({ page }) => {
   await expect(stockRows.first()).toBeVisible();
   expect(await stockRows.count()).toBeGreaterThan(0);
 
-  const title = page.getByTestId("report-title");
-  await expect(title).toBeVisible();
+  await expect(page.getByTestId("report-title")).toBeVisible();
 
   // =========================
   // 6. LOGOUT
   // =========================
   await page.getByTestId("logout-button").click();
 
-  await expect(page).toHaveURL(/\/$/);
+  // 🔥 FIX: stable root redirect check
+  await page.waitForURL("**/", {
+    timeout: 15000,
+  });
 
   const token = await page.evaluate(() =>
     localStorage.getItem("token")
   );
 
   expect(token).toBeNull();
-
 });

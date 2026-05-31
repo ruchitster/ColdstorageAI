@@ -1,50 +1,40 @@
 import { test, expect } from "@playwright/test";
 
 test("logout flow", async ({ page }) => {
-
-  // Login page
   await page.goto("/");
 
   // Login
   await page.getByTestId("login-username").fill("admin");
   await page.getByTestId("login-password").fill("admin123");
-
   await page.getByTestId("login-submit").click();
 
-  // Dashboard should load
-  await expect(
-    page.getByTestId("sidebar-logo")
-  ).toBeVisible();
+  await expect(page).toHaveURL(/dashboard/);
 
-  // Token should exist
-  const tokenBeforeLogout = await page.evaluate(() =>
+  // Ensure dashboard loaded
+  await expect(page.getByTestId("sidebar-logo")).toBeVisible();
+
+  // Token exists
+  const tokenBefore = await page.evaluate(() =>
     localStorage.getItem("token")
   );
-
-  expect(tokenBeforeLogout).toBeTruthy();
+  expect(tokenBefore).toBeTruthy();
 
   // Logout
   await page.getByTestId("logout-button").click();
 
-  // Redirect to login page
+  // 🔥 CI-safe assertion (login route OR root)
   await expect(page).toHaveURL(/\/$/);
 
-  // Token should be removed
-  const tokenAfterLogout = await page.evaluate(() =>
+  // Token removed
+  const tokenAfter = await page.evaluate(() =>
     localStorage.getItem("token")
   );
+  expect(tokenAfter).toBeNull();
 
-  expect(tokenAfterLogout).toBeNull();
-
-  // Try to access dashboard again
+  // Try protected route
   await page.goto("/dashboard");
 
-  // PrivateRoute should redirect to login
   await expect(page).toHaveURL(/\/$/);
 
-  // Login form visible again
-  await expect(
-    page.getByTestId("login-submit")
-  ).toBeVisible();
-
+  await expect(page.getByTestId("login-submit")).toBeVisible();
 });
