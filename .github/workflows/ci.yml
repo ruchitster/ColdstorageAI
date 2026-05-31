@@ -68,6 +68,7 @@ jobs:
 
       - name: Trigger Vercel Deploy Hook
         run: |
+          echo "🚀 Triggering Vercel deploy..."
           curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
 
 
@@ -88,4 +89,5 @@ jobs:
 
       - name: Trigger Render Deploy Hook
         run: |
+          echo "🚀 Triggering Render deploy..."
           curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
