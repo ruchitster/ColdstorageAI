@@ -9,6 +9,7 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+
 jobs:
 
   # =========================
@@ -58,9 +59,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate Vercel Secret
+        run: |
+          if [ -z "${{ secrets.VERCEL_DEPLOY_HOOK }}" ]; then
+            echo "❌ Missing VERCEL_DEPLOY_HOOK secret"
+            exit 1
+          fi
+
       - name: Trigger Vercel Deploy Hook
         run: |
-          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+          curl -X POST "${{ secrets.VERCEL_DEPLOY_HOOK }}"
+
 
   # =========================
   # 3. DEPLOY TO RENDER
@@ -70,6 +79,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate Render Secret
+        run: |
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            echo "❌ Missing RENDER_DEPLOY_HOOK secret"
+            exit 1
+          fi
+
       - name: Trigger Render Deploy Hook
         run: |
-          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
